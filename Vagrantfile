@@ -6,7 +6,22 @@ VAGRANTFILE_API_VERSION = '2'
 @script = <<SCRIPT
 # Install dependencies
 apt-get update
-apt-get install -y apache2 git curl mysql-common php php-mysql php-bcmath php-bz2 php-cli php-curl php-intl php-json php-mbstring php-opcache php-soap php-sqlite3 php-xml php-xsl php-zip libapache2-mod-php
+apt-get install -y apache2 git curl mariadb-server mariadb-client php php-mysql php-bcmath php-bz2 php-cli php-curl php-intl php-json php-mbstring php-opcache php-soap php-sqlite3 php-xml php-xsl php-zip libapache2-mod-php
+# Configure mysql paswd
+if [ ! -z `ls /var/www/vagrant/*.sql` ]; then
+	# Set variable to the basename of the file, minus '.sql'
+	DBNAME=`ls /var/www/vagrant/*.sql | cut -d '/' -f 5 | sed s/.sql//`
+
+	# Create a database with that name
+	sudo mysqladmin -u root create $DBNAME
+
+	# Import the SQL into new database
+	sudo mysql -u root -ppass $DBNAME < /var/www/vagrant/$DBNAME.sql
+
+	# Create a new user with same name as new db, with password 'pass'
+	sudo mysql -u root -e "CREATE USER '$DBNAME'@'%' IDENTIFIED BY 'pass';"
+	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBNAME'@'%';IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;"
+fi
 # Configure Apache
 echo '<VirtualHost *:80>
 	DocumentRoot /var/www/public
