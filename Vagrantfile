@@ -22,6 +22,9 @@ if [ ! -z `ls /var/www/vagrant/*.sql` ]; then
 	sudo mysql -u root -e "CREATE USER '$DBNAME'@'%' IDENTIFIED BY 'pass';"
 	sudo mysql -u root -e "GRANT ALL PRIVILEGES ON $DBNAME.* TO '$DBNAME'@'%';IDENTIFIED BY 'pass' WITH GRANT OPTION;FLUSH PRIVILEGES;"
 fi
+cd /var/www
+echo "Y Y N N Y N Y Y N" | php bin/console doctrine:migrations:migrate
+
 # Configure Apache
 echo '<VirtualHost *:80>
 	DocumentRoot /var/www/public
