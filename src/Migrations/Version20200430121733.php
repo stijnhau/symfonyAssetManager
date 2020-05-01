@@ -35,6 +35,6 @@ final class Version20200430121733 extends AbstractMigration
 
     public function postUp(Schema $schema) : void
     {
-        $this->connection->executeQuery("INSERT INTO asset_type (name) VALUES ('online'), ('point of sale'), ('press releases'), ('print'), ('tv')");
+        $this->connection->executeQuery("INSERT INTO marketing_type (name) VALUES ('online'), ('point of sale'), ('press releases'), ('print'), ('tv')");
     }
 }
