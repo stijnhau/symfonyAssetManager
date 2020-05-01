@@ -14,15 +14,32 @@
         </style>
     </head>
     <body>
-        {% if app.user == null %}
-            <a href="{{ path('app_login') }}" class="btn btn-info">
-                Login >></a
+        <div>
+            {% if app.user == null %}
+                <a href="{{ path('app_login') }}" class="btn btn-info">
+                    Login >></a
+                >
+                <a href="{{ path('app_register') }}" class="btn btn-info">
+                    Register >></a
+                >
+            {% else %}
+                <a href="{{ path('app_logout') }}" class="btn btn-info">
+                    logout >></a
+                >
+            {% endif %}
+        </div>
+
+        {% if app.user != null %}
+            <a href="{{ path('app_list') }}" class="btn btn-info">
+                List >></a
             >
-            <a href="{{ path('app_register') }}" class="btn btn-info">
-                Register >></a
+            <a href="{{ path('app_upload') }}" class="btn btn-info">
+                Upload >></a
             >
         {% endif %}
+
         {% block body %}{% endblock %}
+
         {% block javascripts %}{% endblock %}
     </body>
 </html>
