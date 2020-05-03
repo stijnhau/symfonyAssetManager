@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Assetlist!{% endblock %}
+
+{% block body %}
+    <h2>Filter by asset Type</h2>
+    <div>
+        {% for type in assetTypes %}
+            {{ type.getName() }}
+        {% endfor %}
+    </div>
+    <h2>Filter by Marketing Type</h2>
+    <div>
+        {% for type in marketingTypes %}
+            {{ type.getName() }}
+        {% endfor %}
+    </div>
+{% endblock %}
