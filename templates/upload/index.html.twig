@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Upload new asset!{% endblock %}
+
+
+{% block body %}
+    <h1>Upload new asset</h1>
+
+    {{ form_start(form) }}
+    
+    <div class="form_group">
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.location, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="col-md-12 mb-3">
+            {{ form_row(form.game, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div>
+            <div style="float: left;">
+                <h2>Marketing Type</h2>
+                {% for i in form.marketing_type %}
+                    {{ form_widget(i) }}{{ form_label(i) }}<br>
+                {% endfor %}
+            </div>
+
+            <div style="float: left; margin-left: 50px;">
+                <h2>Asset Type</h2>
+                {% for i in form.asset_type %}
+                    {{ form_widget(i) }}{{ form_label(i) }}<br>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div style="clear: both">
+            {{ form_widget(form.save, { 'label': 'Save' }) }}
+        </div>
+    </div>
+
+
+
+
+    {{ form_end(form) }}
+{% endblock %}

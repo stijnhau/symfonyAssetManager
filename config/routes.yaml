@@ -9,4 +9,7 @@ app_register:
   controller: App\Controller\RegistrationController::index
 app_list:
   path: /list
-  controller: App\Controller\AboutController::index
+  controller: App\Controller\ListController::index
+app_upload:
+  path: /upload
+  controller: App\Controller\UploadController::index
