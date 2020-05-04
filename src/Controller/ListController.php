@@ -5,8 +5,10 @@ namespace App\Controller;
 use App\Entity\Asset;
 use App\Entity\AssetType;
 use App\Entity\MarketingType;
+
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class ListController extends AbstractController
@@ -77,5 +79,45 @@ class ListController extends AbstractController
             'marketingType' => $marketingType,
             'assets' => $assets,
         ]);
+    }
+
+    /**
+     * @Route("/zip", name="zipAction")
+     * @return Response
+     */
+    public function zipAction(Request $request)
+    {
+        $assetIds = ($request->request->get('asset'));
+
+        $files = [];
+
+        $assets = $this->getDoctrine()
+            ->getRepository(Asset::class)
+            ->findBy(array('id' => $assetIds));
+        ;
+        foreach ($assets as $asset) {
+            array_push($files, $this->getParameter('asset_directory') . '/' . $asset->getLocation());
+        }
+
+        // Create new Zip Archive.
+        $zip = new \ZipArchive();
+
+        // The name of the Zip documents.
+        $zipName = 'assets.zip';
+
+        $zip->open($zipName,  \ZipArchive::CREATE);
+        foreach ($files as $file) {
+            $zip->addFromString(basename($file),  file_get_contents($file));
+        }
+        $zip->close();
+
+        $response = new Response(file_get_contents($zipName));
+        $response->headers->set('Content-Type', 'application/zip');
+        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+        $response->headers->set('Content-length', filesize($zipName));
+
+        @unlink($zipName);
+
+        return $response;
     }
 }

@@ -13,3 +13,6 @@ app_list:
 app_upload:
   path: /upload
   controller: App\Controller\UploadController::index
+app_zip:
+  path: /zip
+  controller: App\Controller\ListController::zipAction

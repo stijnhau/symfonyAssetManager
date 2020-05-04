@@ -31,7 +31,7 @@ class Asset
     private $game;
 
     /**
-     * @ORM\ManyToMany(targetEntity="\app\Entity\AssetType", inversedBy="assets")
+     * @ORM\ManyToMany(targetEntity="\App\Entity\AssetType", inversedBy="assets")
      */
     private $asset_type;
 

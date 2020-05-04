@@ -19,25 +19,30 @@
     </div>
 
     <div>
-        <div style="margin: 20px; background-color: aqua; float: left; width: max-content">
+        <form method="post" action="{{ path('app_zip')}}">
             {% for asset in assets %}
-                <br />
-                {% for type in asset.getAssetType %}
-                    {{ type.getName() }}
-                    {%- if not loop.last -%}
-                        ,
-                    {% endif %}
-                {% endfor %}<br />
-                {% for type in asset.getMarketingType %}
-                    {{ type.getName() }}
-                    {%- if not loop.last -%}
-                        ,
-                    {% endif %}
-                {% endfor %}<br />
+                <div style="margin: 20px; background-color: aqua; float: left; width: max-content">
+                    <br />
+                    {% for type in asset.getAssetType %}
+                        {{ type.getName() }}
+                        {%- if not loop.last -%}
+                            ,
+                        {% endif %}
+                    {% endfor %}<br />
+                    {% for type in asset.getMarketingType %}
+                        {{ type.getName() }}
+                        {%- if not loop.last -%}
+                            ,
+                        {% endif %}
+                    {% endfor %}<br />
 
-                <label for="asset{{ asset.getId() }}">Select</label>
-                <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
+                    <label for="asset{{ asset.getId() }}">Select</label>
+                    <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
+                </div>
             {% endfor %}
+
+            <input type="submit" value="Submit">
+
         </div>
     </div>
 {% endblock %}
