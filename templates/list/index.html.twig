@@ -3,16 +3,41 @@
 {% block title %}Assetlist!{% endblock %}
 
 {% block body %}
-    <h2>Filter by asset Type</h2>
-    <div>
-        {% for type in assetTypes %}
-            {{ type.getName() }}
-        {% endfor %}
+    <div style="margin-bottom: 50px;">
+        <h2>Filter by asset Type</h2>
+        <div>
+            {% for type in assetTypes %}
+                <a href="{{ path('list', {marketing_type: marketingType, asset_type:assetType ~ ',' ~ type.getId()} ) }}">{{ type.getName() }}</a>
+            {% endfor %}
+        </div>
+        <h2>Filter by Marketing Type</h2>
+        <div>
+            {% for type in marketingTypes %}
+                <a href="{{ path('list', {marketing_type: marketingType ~ ',' ~ type.getId(), asset_type:assetType} ) }}">{{ type.getName() }}</a>
+            {% endfor %}
+        </div>
     </div>
-    <h2>Filter by Marketing Type</h2>
+
     <div>
-        {% for type in marketingTypes %}
-            {{ type.getName() }}
-        {% endfor %}
+        <div style="margin: 20px; background-color: aqua; float: left; width: max-content">
+            {% for asset in assets %}
+                <br />
+                {% for type in asset.getAssetType %}
+                    {{ type.getName() }}
+                    {%- if not loop.last -%}
+                        ,
+                    {% endif %}
+                {% endfor %}<br />
+                {% for type in asset.getMarketingType %}
+                    {{ type.getName() }}
+                    {%- if not loop.last -%}
+                        ,
+                    {% endif %}
+                {% endfor %}<br />
+
+                <label for="asset{{ asset.getId() }}">Select</label>
+                <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}
