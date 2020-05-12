@@ -5,9 +5,12 @@
 {% block stylesheets %}
     .assetDiv {
         margin: 20px;
-        background-color: aqua;
+        background-color: #E01EE0BD;
         float: left;
         width: max-content;
+        padding: 10px;
+        border-radius: 20px;
+        color: white;
     }
 
     .assetDiv:first-of-type {
@@ -21,8 +24,16 @@
     }
 {% endblock %}
 
+{% block javascripts %}
+    <script type="text/javascript">
+        $("label").click(function() {
+            $(this).toggleClass("active");
+        });
+    </script>
+{% endblock %}
+
 {% block body %}
-    <div style="margin-bottom: 50px;">
+    <div>
         <h2>Filter by asset Type</h2>
         <div>
             {% for type in assetTypes %}
@@ -46,6 +57,9 @@
     </div>
 
     <div class="grid" style="margin-left: 20px;">
+        <div class="row" style="margin-bottom: -20px; margin-top: 20px;">
+            <h2>Assets</h2>
+        </div>
         <form method="post" action="{{ path('app_zip')}}">
             <div class="row">
                 {% for asset in assets %}
@@ -65,13 +79,13 @@
                             {% endif %}
                         {% endfor %}<br />
 
-                        <label for="asset{{ asset.getId() }}">Select</label>
-                        <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
+                        <label class="btn btn-primary" for="asset{{ asset.getId() }}">Select</label>
+                        <input style="display: none" name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
                     </div>
                 {% endfor %}
             </div>
             <div class="row">
-                <input type="submit" value="Submit">
+                <input class="btn btn-primary" type="submit" value="Submit">
             </div>
         </form>
     </div>
