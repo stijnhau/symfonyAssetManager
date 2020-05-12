@@ -88,6 +88,7 @@ class ListController extends AbstractController
 
     /**
      * @Route("/zip", name="zipAction")
+     * @param Request $request
      * @return Response
      */
     public function zipAction(Request $request)
@@ -116,14 +117,23 @@ class ListController extends AbstractController
         }
         $zip->close();
 
-        $response = new Response(file_get_contents($zipName));
-        $response->headers->set('Content-Type', 'application/zip');
-        $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
-        $response->headers->set('Content-length', filesize($zipName));
+        if (file_exists($zipName)) {
+            $response = new Response(file_get_contents($zipName));
+            $response->headers->set('Content-Type', 'application/zip');
+            $response->headers->set('Content-Disposition', 'attachment;filename="' . $zipName . '"');
+            $response->headers->set('Content-length', filesize($zipName));
 
-        @unlink($zipName);
+            @unlink($zipName);
 
-        return $response;
+            return $response;
+        }
+
+
+        $this->addFlash(
+            'danger',
+            'NO assets selected'
+        );
+        return $this->index($request);
     }
 
     /**
