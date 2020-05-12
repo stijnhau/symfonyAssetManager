@@ -6,7 +6,7 @@ VAGRANTFILE_API_VERSION = '2'
 @script = <<SCRIPT
 # Install dependencies
 apt-get update
-apt-get install -y apache2 git curl mariadb-server mariadb-client php php-mysql php-bcmath php-bz2 php-cli php-curl php-intl php-json php-mbstring php-opcache php-soap php-sqlite3 php-xml php-xsl php-zip libapache2-mod-php npm gulp
+apt-get install -y apache2 git curl mariadb-server mariadb-client php php-mysql php-bcmath php-bz2 php-cli php-curl php-intl php-json php-mbstring php-opcache php-soap php-sqlite3 php-xml php-xsl php-zip libapache2-mod-php npm gulp php-gd
 # Configure mysql paswd
 if [ ! -z `ls /var/www/vagrant/*.sql` ]; then
 	# Set variable to the basename of the file, minus '.sql'

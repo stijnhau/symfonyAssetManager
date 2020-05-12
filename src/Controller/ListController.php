@@ -120,4 +120,24 @@ class ListController extends AbstractController
 
         return $response;
     }
+
+    /**
+     * @Route("/list/image", name="imageAction")
+     * @param Request $request
+     * @return Response
+     */
+    public function imageAction(Request $request)
+    {
+        $assetId = ($request->query->get('asset'));
+
+        $asset = $this->getDoctrine()
+            ->getRepository(Asset::class)
+            ->findOneBy(array('id' => $assetId));
+
+        $image = $this->getParameter('asset_directory') . '/' . $asset->getLocation();
+        $file = file_get_contents($image);
+        $headers = array('Content-Type' => 'image/jpeg',
+            'Content-Disposition' => 'inline; filename="'.$asset->getLocation().'"');
+        return new Response($file, 200, $headers);
+    }
 }

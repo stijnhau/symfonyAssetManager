@@ -16,3 +16,6 @@ app_upload:
 app_zip:
   path: /zip
   controller: App\Controller\ListController::zipAction
+app_image:
+  path: /list/image
+  controller: App\Controller\ListController::imageAction

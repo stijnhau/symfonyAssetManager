@@ -2,6 +2,25 @@
 
 {% block title %}Assetlist!{% endblock %}
 
+{% block stylesheets %}
+    .assetDiv {
+        margin: 20px;
+        background-color: aqua;
+        float: left;
+        width: max-content;
+    }
+
+    .assetDiv:first-of-type {
+        margin-left: 0;
+    }
+
+
+    .assetDiv img {
+        max-width: 100px;
+        max-height: 100px;
+    }
+{% endblock %}
+
 {% block body %}
     <div style="margin-bottom: 50px;">
         <h2>Filter by asset Type</h2>
@@ -18,31 +37,34 @@
         </div>
     </div>
 
-    <div>
+    <div class="grid" style="margin-left: 20px;">
         <form method="post" action="{{ path('app_zip')}}">
-            {% for asset in assets %}
-                <div style="margin: 20px; background-color: aqua; float: left; width: max-content">
-                    <br />
-                    {% for type in asset.getAssetType %}
-                        {{ type.getName() }}
-                        {%- if not loop.last -%}
-                            ,
-                        {% endif %}
-                    {% endfor %}<br />
-                    {% for type in asset.getMarketingType %}
-                        {{ type.getName() }}
-                        {%- if not loop.last -%}
-                            ,
-                        {% endif %}
-                    {% endfor %}<br />
+            <div class="row">
+                {% for asset in assets %}
+                    <div class="assetDiv">
+                        <img src="{{ path('app_image', {asset: asset.getId()} ) }}">
+                        <br />
+                        {% for type in asset.getAssetType %}
+                            {{ type.getName() }}
+                            {%- if not loop.last -%}
+                                ,
+                            {% endif %}
+                        {% endfor %}<br />
+                        {% for type in asset.getMarketingType %}
+                            {{ type.getName() }}
+                            {%- if not loop.last -%}
+                                ,
+                            {% endif %}
+                        {% endfor %}<br />
 
-                    <label for="asset{{ asset.getId() }}">Select</label>
-                    <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
-                </div>
-            {% endfor %}
-
-            <input type="submit" value="Submit">
-
-        </div>
+                        <label for="asset{{ asset.getId() }}">Select</label>
+                        <input name="asset[]" type="checkbox" id="asset{{ asset.getId() }}" value="{{ asset.getId() }}">
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <input type="submit" value="Submit">
+            </div>
+        </form>
     </div>
 {% endblock %}
