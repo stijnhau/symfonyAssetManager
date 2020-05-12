@@ -20,6 +20,9 @@ class ListController extends AbstractController
      */
     public function index(Request $request)
     {
+        $assetTypeArr = array();
+        $marketingTypeArr = array();
+
         $assetTypes = $this->getDoctrine()
             ->getRepository(AssetType::class)
             ->findAll();
@@ -75,6 +78,8 @@ class ListController extends AbstractController
         return $this->render('list/index.html.twig', [
             'assetTypes' => $assetTypes,
             'marketingTypes' => $marketingTypes,
+            'assetTypesActive' => $assetTypeArr,
+            'marketingTypesActive' => $marketingTypeArr,
             'assetType' => $assetType,
             'marketingType' => $marketingType,
             'assets' => $assets,

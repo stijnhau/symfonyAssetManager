@@ -26,13 +26,21 @@
         <h2>Filter by asset Type</h2>
         <div>
             {% for type in assetTypes %}
-                <a href="{{ path('list', {marketing_type: marketingType, asset_type:assetType ~ ',' ~ type.getId()} ) }}">{{ type.getName() }}</a>
+                <a class="btn btn-primary
+                {% if type.getId() in assetTypesActive %}
+                    active
+                {% endif %}
+                " href="{{ path('list', {marketing_type: marketingType, asset_type:assetType ~ ',' ~ type.getId()} ) }}">{{ type.getName() }}</a>
             {% endfor %}
         </div>
         <h2>Filter by Marketing Type</h2>
         <div>
             {% for type in marketingTypes %}
-                <a href="{{ path('list', {marketing_type: marketingType ~ ',' ~ type.getId(), asset_type:assetType} ) }}">{{ type.getName() }}</a>
+                <a class="btn btn-primary
+                {% if type.getId() in marketingTypesActive %}
+                    active
+                {% endif %}
+                " href="{{ path('list', {marketing_type: marketingType ~ ',' ~ type.getId(), asset_type:assetType} ) }}">{{ type.getName() }}</a>
             {% endfor %}
         </div>
     </div>
